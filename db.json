@@ -1,0 +1,52 @@
+{
+  "accounts": [
+    {
+      "id": "1",
+      "ownerId": 1,
+      "currency": "EUR",
+      "balance": 998
+    },
+    {
+      "id": "2",
+      "ownerId": 2,
+      "currency": "EUR",
+      "balance": 503
+    },
+    {
+      "id": "e890",
+      "ownerId": 12345,
+      "currency": "EUR",
+      "balance": 1000
+    },
+    {
+      "id": "c69c",
+      "ownerId": 45353,
+      "currency": "EUR",
+      "balance": 2
+    },
+    {
+      "ownerId": 22222222,
+      "currency": "USD",
+      "balance": 1001,
+      "id": "90dc"
+    },
+    {
+      "id": "c41b",
+      "ownerId": 3,
+      "currency": "EUR",
+      "balance": 2
+    },
+    {
+      "ownerId": 145,
+      "currency": "USD",
+      "balance": 10001,
+      "id": "3aa0"
+    },
+    {
+      "ownerId": 33334444,
+      "currency": "EUR",
+      "balance": 44,
+      "id": "3e61"
+    }
+  ]
+}
