@@ -29,13 +29,10 @@ const DeleteConfirmationModal = ({
         sx: { minWidth: '300px' },
       }}
     >
-      <DialogTitle
-        id='alert-dialog-title'
-        sx={{ padding: '2rem', pb: '0.5rem' }}
-      >
+      <DialogTitle id='alert-dialog-title' sx={{ p: '2rem', pb: '0.5rem' }}>
         Delete account confirmation
       </DialogTitle>
-      <DialogContent sx={{ pr: '2rem', pb: 0, pl: '2rem' }}>
+      <DialogContent sx={{ p: '2rem 2rem 0 2rem' }}>
         <DialogContentText id='alert-dialog-description'>
           Are you sure you want to delete this account?
         </DialogContentText>
@@ -49,8 +46,9 @@ const DeleteConfirmationModal = ({
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
+            gap: '1rem',
             width: '100%',
-            padding: '2rem',
+            p: '2rem',
             pt: '1.5rem',
           }}
         >

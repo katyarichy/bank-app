@@ -9,13 +9,10 @@ const CreateAccountPage = () => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        padding: '2rem',
+        p: '2rem',
       }}
     >
-      <Paper
-        elevation={3}
-        sx={{ width: '100%', maxWidth: '500px', padding: '2rem' }}
-      >
+      <Paper elevation={3} sx={{ width: '100%', maxWidth: '500px', p: '2rem' }}>
         <Typography variant='h4' component='h1' gutterBottom>
           Create account
         </Typography>

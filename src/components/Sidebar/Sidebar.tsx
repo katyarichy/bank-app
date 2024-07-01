@@ -17,10 +17,10 @@ const Sidebar = ({ onLinkClick }: SidebarProps) => {
   return (
     <Box
       sx={{
-        width: 300,
+        width: '300px',
         minHeight: '100vh',
         backgroundColor: theme.palette.custom.sidebarBackground,
-        padding: '1rem',
+        p: '1rem',
       }}
     >
       <Typography
@@ -28,7 +28,7 @@ const Sidebar = ({ onLinkClick }: SidebarProps) => {
         sx={{
           color: 'white',
           textAlign: 'center',
-          mb: 2,
+          mb: '1rem',
         }}
       >
         BANK APP
@@ -37,7 +37,7 @@ const Sidebar = ({ onLinkClick }: SidebarProps) => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 2,
+          gap: '1rem',
         }}
       >
         <Button

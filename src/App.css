@@ -1,0 +1,13 @@
+body {
+  background-color: #f7f8fb !important;
+}
+
+#root > .MuiBox-root {
+  min-height: 100vh;
+}
+
+@media (max-width: 900px) {
+  #root > .MuiBox-root {
+    flex-direction: column;
+  }
+}

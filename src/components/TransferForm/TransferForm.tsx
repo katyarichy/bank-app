@@ -65,7 +65,7 @@ const TransferForm = () => {
         fullWidth
         margin='normal'
       />
-      <Box sx={{ mt: 2 }}>
+      <Box sx={{ mt: '1rem' }}>
         <Button type='submit' variant='contained' color='primary' fullWidth>
           Transfer
         </Button>
@@ -75,7 +75,7 @@ const TransferForm = () => {
           variant='body1'
           align='center'
           color={statusMessage.isError ? 'error' : 'green'}
-          sx={{ mt: 1 }}
+          sx={{ mt: '0.5rem' }}
         >
           {statusMessage.message}
         </Typography>
