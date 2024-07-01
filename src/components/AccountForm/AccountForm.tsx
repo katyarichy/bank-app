@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -11,14 +11,19 @@ import {
   FormControl,
   InputLabel,
 } from '@mui/material';
-import { createAccount, isOwnerIdDuplicate } from '../../services/api';
+import {
+  createAccount,
+  updateAccount,
+  isOwnerIdDuplicate,
+} from '../../services/api';
 import { AccountSchema, AccountFormData } from './accountSchema';
 
 interface AccountFormProps {
+  currentAccount?: AccountFormData & { id: number };
   onSave?: (account: AccountFormData & { id: number }) => void;
 }
 
-const AccountForm = ({ onSave }: AccountFormProps) => {
+const AccountForm = ({ currentAccount, onSave }: AccountFormProps) => {
   const [statusMessage, setStatusMessage] = useState({
     message: '',
     isError: false,
@@ -29,6 +34,7 @@ const AccountForm = ({ onSave }: AccountFormProps) => {
     handleSubmit,
     reset,
     formState: { errors },
+    setValue,
     control,
   } = useForm<AccountFormData>({
     resolver: zodResolver(AccountSchema),
@@ -36,22 +42,43 @@ const AccountForm = ({ onSave }: AccountFormProps) => {
 
   const currency = useWatch({ control, name: 'currency' });
 
+  useEffect(() => {
+    if (currentAccount) {
+      setValue('ownerId', currentAccount.ownerId);
+      setValue('currency', currentAccount.currency);
+      setValue('balance', currentAccount.balance);
+    }
+  }, [currentAccount, setValue]);
+
   const onSubmit: SubmitHandler<AccountFormData> = async (
     data: AccountFormData
   ) => {
     try {
       const isDuplicate = await isOwnerIdDuplicate(data.ownerId);
-      if (isDuplicate) {
+      if (isDuplicate && !currentAccount) {
         setStatusMessage({ message: 'Owner ID already exists', isError: true });
         return;
       }
 
-      const createdAccount = await createAccount(data);
-      if (onSave) onSave(createdAccount);
-      setStatusMessage({
-        message: 'Account created successfully!',
-        isError: false,
-      });
+      if (currentAccount) {
+        await updateAccount(currentAccount.id, {
+          ...data,
+          id: currentAccount.id,
+        });
+        if (onSave) onSave({ ...data, id: currentAccount.id });
+        setStatusMessage({
+          message: 'Account updated successfully!',
+          isError: false,
+        });
+      } else {
+        const createdAccount = await createAccount(data);
+        if (onSave) onSave(createdAccount);
+        setStatusMessage({
+          message: 'Account created successfully!',
+          isError: false,
+        });
+      }
+
       reset();
     } catch (error) {
       console.error('Error saving account:', error);
@@ -77,6 +104,7 @@ const AccountForm = ({ onSave }: AccountFormProps) => {
         }
         fullWidth
         margin='normal'
+        disabled={!!currentAccount}
       />
       <FormControl fullWidth margin='normal'>
         <InputLabel>Currency</InputLabel>
@@ -103,7 +131,7 @@ const AccountForm = ({ onSave }: AccountFormProps) => {
       />
       <Box sx={{ mt: 2 }}>
         <Button type='submit' variant='contained' color='primary' fullWidth>
-          Create account
+          {currentAccount ? 'Update account' : 'Create account'}
         </Button>
       </Box>
       {statusMessage.message && (

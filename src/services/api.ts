@@ -23,6 +23,25 @@ export const createAccount = async (account: Omit<Account, 'id'>) => {
   }
 };
 
+export const updateAccount = async (id: number, account: Account) => {
+  try {
+    const response = await axios.put(`${API_URL}/accounts/${id}`, account);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating account:', error);
+    throw error;
+  }
+};
+
+export const deleteAccount = async (id: number) => {
+  try {
+    await axios.delete(`${API_URL}/accounts/${id}`);
+  } catch (error) {
+    console.error('Error deleting account:', error);
+    throw error;
+  }
+};
+
 export const isOwnerIdDuplicate = async (ownerId: number) => {
   try {
     const accounts = await getAccounts();
