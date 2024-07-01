@@ -51,3 +51,50 @@ export const isOwnerIdDuplicate = async (ownerId: number) => {
     throw error;
   }
 };
+
+export const getAccountByOwnerId = async (
+  ownerId: number
+): Promise<Account | null> => {
+  try {
+    const response = await axios.get(`${API_URL}/accounts?ownerId=${ownerId}`);
+    const accounts = response.data;
+    if (!accounts.length) {
+      throw new Error('Account not found');
+    }
+    return accounts[0];
+  } catch (error) {
+    console.error('Error fetching account:', error);
+    return null;
+  }
+};
+
+export const transferFunds = async (
+  fromOwnerId: number,
+  toOwnerId: number,
+  amount: number
+) => {
+  if (fromOwnerId === toOwnerId) {
+    throw new Error('Sender and recipient IDs must be different');
+  }
+
+  const fromAccount = await getAccountByOwnerId(fromOwnerId);
+  const toAccount = await getAccountByOwnerId(toOwnerId);
+
+  if (!fromAccount || !toAccount) {
+    throw new Error('Account not found');
+  }
+
+  if (fromAccount.currency !== toAccount.currency) {
+    throw new Error('Currencies do not match');
+  }
+
+  if (fromAccount.balance < amount) {
+    throw new Error('Insufficient funds');
+  }
+
+  fromAccount.balance -= amount;
+  toAccount.balance += amount;
+
+  await updateAccount(fromAccount.id, fromAccount);
+  await updateAccount(toAccount.id, toAccount);
+};
